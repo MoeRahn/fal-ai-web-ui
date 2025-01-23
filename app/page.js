@@ -14,9 +14,11 @@ export default function Home() {
   // Additional parameters for fine-tuning
   const [imageSize, setImageSize] = useState("landscape_4_3");
   const [numInferenceSteps, setNumInferenceSteps] = useState(28);
+  const [imageSeed, setImageSeed] = useState(9999);
   const [guidanceScale, setGuidanceScale] = useState(3.5);
   const [numImages, setNumImages] = useState(1);
-  const [enableSafetyChecker, setEnableSafetyChecker] = useState(true);
+  const [enableSafetyChecker, setEnableSafetyChecker] = useState(false);
+  const [safetyTolerance, setSafetyTolerance] = useState(5);
   const [strength, setStrength] = useState(1);
   const [outputFormat, setOutputFormat] = useState("jpeg");
   const [syncMode, setSyncMode] = useState(false);
@@ -69,9 +71,11 @@ export default function Home() {
           prompt,
           image_size: imageSize,
           num_inference_steps: numInferenceSteps,
+          seed: imageSeed,
           guidance_scale: guidanceScale,
           num_images: numImages,
           enable_safety_checker: enableSafetyChecker,
+          safety_tolerance: safetyTolerance,
           strength,
           output_format: outputFormat,
           sync_mode: syncMode,
@@ -177,6 +181,8 @@ export default function Home() {
               <option value="fal-ai/flux-lora">flux-lora</option>
               <option value="fal-ai/flux/dev">flux/dev</option>
               <option value="fal-ai/flux-realism">flux-realism</option>
+              <option value="fal-ai/flux-pro/v1.1">flux-pro-v1.1</option>
+              <option value="fal-ai/flux-pro/v1.1-ultra">flux-pro-ultra</option>
             </select>
           </div>
 
@@ -260,6 +266,21 @@ export default function Home() {
               min="1"
             />
           </div>
+          
+          {/* Seed */}
+          <div>
+            <label htmlFor="imageSeed" className="block text-lg font-medium text-gray-700">
+              Image Seed
+            </label>
+            <input
+              type="number"
+              id="imageSeed"
+              value={imageSeed}
+              onChange={(e) => setImageSeed(e.target.value)}
+              className="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm"
+              min="1"
+            />
+          </div>
 
           {/* Guidance Scale */}
           <div>
@@ -303,6 +324,21 @@ export default function Home() {
             <label htmlFor="enableSafetyChecker" className="ml-2 text-lg font-medium text-gray-700">
               NSFW Disabled
             </label>
+          </div>
+
+          {/* Safety Tolerance */}
+          <div>
+            <label htmlFor="safetyTolerance" className="block text-lg font-medium text-gray-700">
+              Safety Tolerance
+            </label>
+            <input
+              type="number"
+              id="safetyTolerance"
+              value={safetyTolerance}
+              onChange={(e) => setSafetyTolerance(e.target.value)}
+              className="mt-2 p-3 w-full border border-gray-300 rounded-lg shadow-sm"
+              min="1"
+            />
           </div>
 
           {/* Strength */}
